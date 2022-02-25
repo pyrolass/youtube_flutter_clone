@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-
-import 'package:youtube_clone/model/video.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube_clone/provider/current_video.dart';
+import 'package:youtube_clone/provider/miniplayer_provider.dart';
 import 'package:youtube_clone/screen/home_screen.dart';
 import 'package:youtube_clone/screen/video_screen.dart';
-
-final selectedVideoProvider = StateProvider<Video?>((ref) => null);
-final miniplayerControllerProvider =
-    StateProvider.autoDispose<MiniplayerController>(
-        (ref) => MiniplayerController());
 
 class NavScreen extends StatefulWidget {
   const NavScreen({Key? key}) : super(key: key);
@@ -48,11 +43,8 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer(
-        builder: (context, watch, _) {
-          final _selectedVideo = watch(selectedVideoProvider).state;
-          final _miniPlayerController =
-              watch(miniplayerControllerProvider).state;
+      body: Consumer2<CurrentVideo, MiniplayerProvider>(
+        builder: (context, vidProvider, miniProvider, _) {
           return Stack(
             children: _screens
                 .asMap()
@@ -69,13 +61,13 @@ class _NavScreenState extends State<NavScreen> {
                 .toList()
               ..add(
                 Offstage(
-                  offstage: _selectedVideo == null,
+                  offstage: vidProvider.curretnVideo == null,
                   child: Miniplayer(
-                    controller: _miniPlayerController,
+                    controller: miniProvider.controller,
                     minHeight: _playerMinHeight,
                     maxHeight: MediaQuery.of(context).size.height,
                     builder: (height, percentage) {
-                      if (_selectedVideo == null) {
+                      if (vidProvider.curretnVideo == null) {
                         return const SizedBox.shrink();
                       }
                       if (height <= _playerMinHeight + 50) {
@@ -86,7 +78,7 @@ class _NavScreenState extends State<NavScreen> {
                               Row(
                                 children: [
                                   Image.network(
-                                    _selectedVideo.thumbnailUrl,
+                                    vidProvider.curretnVideo!.thumbnailUrl,
                                     height: _playerMinHeight - 4.0,
                                     width: 120,
                                     fit: BoxFit.cover,
@@ -101,7 +93,7 @@ class _NavScreenState extends State<NavScreen> {
                                         children: [
                                           Flexible(
                                             child: Text(
-                                              _selectedVideo.title,
+                                              vidProvider.curretnVideo!.title,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -115,7 +107,8 @@ class _NavScreenState extends State<NavScreen> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              _selectedVideo.author.username,
+                                              vidProvider.curretnVideo!.author
+                                                  .username,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -137,9 +130,7 @@ class _NavScreenState extends State<NavScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      context
-                                          .read(selectedVideoProvider)
-                                          .state = null;
+                                      vidProvider.unselectVideo();
                                     },
                                     icon: const Icon(Icons.close),
                                   )

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_clone/model/video.dart';
-import 'package:youtube_clone/screen/nav_screen.dart';
+import 'package:youtube_clone/provider/current_video.dart';
+import 'package:youtube_clone/provider/miniplayer_provider.dart';
 import 'package:youtube_clone/widget/widgets.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -28,31 +29,27 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context
-            .read(miniplayerControllerProvider)
-            .state
-            .animateToHeight(state: PanelState.MAX);
-      },
-      child: Scaffold(
-        body: Container(
-          color: Theme.of(context).backgroundColor,
-          child: CustomScrollView(
-            controller: _scrollController,
-            shrinkWrap: true,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Consumer(
-                  builder: (context, watch, _) {
-                    final _selectedVideo = watch(selectedVideoProvider).state;
-                    return SafeArea(
+    return Consumer2<CurrentVideo, MiniplayerProvider>(
+      builder: (context, vidProvider, miniProvider, _) {
+        return GestureDetector(
+          onTap: () {
+            miniProvider.controller.animateToHeight(state: PanelState.MAX);
+          },
+          child: Scaffold(
+            body: Container(
+              color: Theme.of(context).backgroundColor,
+              child: CustomScrollView(
+                controller: _scrollController,
+                shrinkWrap: true,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SafeArea(
                       child: Column(
                         children: [
                           Stack(
                             children: [
                               Image.network(
-                                _selectedVideo!.thumbnailUrl,
+                                vidProvider.curretnVideo!.thumbnailUrl,
                                 height: 220,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -60,9 +57,7 @@ class _VideoScreenState extends State<VideoScreen> {
                               IconButton(
                                 color: Colors.white,
                                 onPressed: () {
-                                  context
-                                      .read(miniplayerControllerProvider)
-                                      .state
+                                  miniProvider.controller
                                       .animateToHeight(state: PanelState.MIN);
                                 },
                                 icon: const Icon(
@@ -77,36 +72,36 @@ class _VideoScreenState extends State<VideoScreen> {
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(Colors.red),
                           ),
-                          VideoInfo(video: _selectedVideo)
+                          VideoInfo(video: vidProvider.curretnVideo!)
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final video = suggestedVideos[index];
-                    return VideoCard(
-                      video: video,
-                      hasPadding: true,
-                      onTap: () {
-                        _scrollController!.animateTo(
-                          0,
-                          duration: const Duration(microseconds: 200),
-                          curve: Curves.easeIn,
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final video = suggestedVideos[index];
+                        return VideoCard(
+                          video: video,
+                          hasPadding: true,
+                          onTap: () {
+                            _scrollController!.animateTo(
+                              0,
+                              duration: const Duration(microseconds: 200),
+                              curve: Curves.easeIn,
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  childCount: suggestedVideos.length,
-                ),
-              )
-            ],
+                      childCount: suggestedVideos.length,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
