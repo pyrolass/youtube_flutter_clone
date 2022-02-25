@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:youtube_clone/data.dart';
+import 'package:youtube_clone/model/user.dart';
+import 'package:youtube_clone/model/video.dart';
 
 class VideoInfo extends StatelessWidget {
   final Video video;

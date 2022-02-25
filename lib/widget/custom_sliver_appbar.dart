@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_clone/data.dart';
+
+import 'package:youtube_clone/model/user.dart';
 
 class CustomSliverAppbar extends StatelessWidget {
   const CustomSliverAppbar({Key? key}) : super(key: key);

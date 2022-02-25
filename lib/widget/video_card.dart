@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:youtube_clone/data.dart';
+
+import 'package:youtube_clone/model/video.dart';
 import 'package:youtube_clone/screen/nav_screen.dart';
 
 class VideoCard extends StatelessWidget {

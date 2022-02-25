@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_clone/data.dart';
+import 'package:youtube_clone/model/video.dart';
 import 'package:youtube_clone/widget/widgets.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:youtube_clone/data.dart';
+import 'package:youtube_clone/model/video.dart';
 import 'package:youtube_clone/screen/nav_screen.dart';
 import 'package:youtube_clone/widget/widgets.dart';
 
