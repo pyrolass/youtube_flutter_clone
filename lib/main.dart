@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_clone/provider/current_video.dart';
 import 'package:youtube_clone/provider/miniplayer_provider.dart';
+import 'package:youtube_clone/provider/selected_category_index.dart';
 import 'package:youtube_clone/screen/nav_screen.dart';
 
 void main() {
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MiniplayerProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SelectedCategoryIndex(),
         ),
       ],
       child: MaterialApp(

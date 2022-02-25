@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:youtube_clone/provider/current_video.dart';
 import 'package:youtube_clone/provider/miniplayer_provider.dart';
 import 'package:youtube_clone/screen/home_screen.dart';
+import 'package:youtube_clone/screen/sub_screen.dart';
 import 'package:youtube_clone/screen/video_screen.dart';
 
 class NavScreen extends StatefulWidget {
@@ -29,11 +30,7 @@ class _NavScreenState extends State<NavScreen> {
         child: Text('data2'),
       ),
     ),
-    const Scaffold(
-      body: Center(
-        child: Text('data3'),
-      ),
-    ),
+    const SubScreen(),
     const Scaffold(
       body: Center(
         child: Text('data4'),

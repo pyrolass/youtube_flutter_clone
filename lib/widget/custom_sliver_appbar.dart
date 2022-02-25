@@ -8,6 +8,7 @@ class CustomSliverAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      backgroundColor: Theme.of(context).canvasColor,
       floating: true,
       leadingWidth: 100,
       leading: Padding(
