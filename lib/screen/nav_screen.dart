@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:youtube_clone/provider/current_video.dart';
 import 'package:youtube_clone/provider/miniplayer_provider.dart';
 import 'package:youtube_clone/screen/home_screen.dart';
+import 'package:youtube_clone/screen/library_screen.dart';
 import 'package:youtube_clone/screen/sub_screen.dart';
 import 'package:youtube_clone/screen/video_screen.dart';
 
@@ -31,11 +32,7 @@ class _NavScreenState extends State<NavScreen> {
       ),
     ),
     const SubScreen(),
-    const Scaffold(
-      body: Center(
-        child: Text('data4'),
-      ),
-    )
+    const LibraryScreen(),
   ];
   @override
   Widget build(BuildContext context) {

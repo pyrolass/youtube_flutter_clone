@@ -36,68 +36,64 @@ class _VideoScreenState extends State<VideoScreen> {
             miniProvider.controller.animateToHeight(state: PanelState.MAX);
           },
           child: Scaffold(
-            body: Container(
-              color: Theme.of(context).backgroundColor,
-              child: CustomScrollView(
-                controller: _scrollController,
-                shrinkWrap: true,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Image.network(
-                                vidProvider.curretnVideo!.thumbnailUrl,
-                                height: 220,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
+            body: CustomScrollView(
+              controller: _scrollController,
+              shrinkWrap: true,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Image.network(
+                              vidProvider.curretnVideo!.thumbnailUrl,
+                              height: 220,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                            IconButton(
+                              color: Colors.white,
+                              onPressed: () {
+                                miniProvider.controller
+                                    .animateToHeight(state: PanelState.MIN);
+                              },
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 30,
                               ),
-                              IconButton(
-                                color: Colors.white,
-                                onPressed: () {
-                                  miniProvider.controller
-                                      .animateToHeight(state: PanelState.MIN);
-                                },
-                                icon: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 30,
-                                ),
-                              )
-                            ],
-                          ),
-                          const LinearProgressIndicator(
-                            value: 0.4,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.red),
-                          ),
-                          VideoInfo(video: vidProvider.curretnVideo!)
-                        ],
-                      ),
+                            )
+                          ],
+                        ),
+                        const LinearProgressIndicator(
+                          value: 0.4,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        VideoInfo(video: vidProvider.curretnVideo!)
+                      ],
                     ),
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final video = suggestedVideos[index];
-                        return VideoCard(
-                          video: video,
-                          hasPadding: true,
-                          onTap: () {
-                            _scrollController!.animateTo(
-                              0,
-                              duration: const Duration(microseconds: 200),
-                              curve: Curves.easeIn,
-                            );
-                          },
-                        );
-                      },
-                      childCount: suggestedVideos.length,
-                    ),
-                  )
-                ],
-              ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final video = suggestedVideos[index];
+                      return VideoCard(
+                        video: video,
+                        hasPadding: true,
+                        onTap: () {
+                          _scrollController!.animateTo(
+                            0,
+                            duration: const Duration(microseconds: 200),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                      );
+                    },
+                    childCount: suggestedVideos.length,
+                  ),
+                ),
+              ],
             ),
           ),
         );
